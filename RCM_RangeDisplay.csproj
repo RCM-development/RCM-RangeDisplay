@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <AssemblyName>RCM_RangeDisplay</AssemblyName>
+    <RootNamespace>RCM_RangeDisplay</RootNamespace>
+    <LangVersion>latest</LangVersion>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <Version>0.1.0</Version>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <DebugType>portable</DebugType>
+  </PropertyGroup>
+
+  <!-- Path to the installed game. Override with -p:GameDir=... if the game lives elsewhere. -->
+  <PropertyGroup>
+    <GameDir Condition="'$(GameDir)' == ''">C:\Program Files (x86)\Steam\steamapps\common\Rogue Command</GameDir>
+    <GameDir Condition="!Exists('$(GameDir)')">D:\SteamLibrary\steamapps\common\Rogue Command</GameDir>
+    <Managed>$(GameDir)\Rogue Command_Data\Managed</Managed>
+    <BepCore>$(GameDir)\BepInEx\core</BepCore>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="$(BepCore)\BepInEx.dll"><Private>false</Private></Reference>
+    <Reference Include="$(BepCore)\0Harmony.dll"><Private>false</Private></Reference>
+    <!-- Publicized game code (shipped in RCM-Manager\res) -->
+    <Reference Include="..\RCM-Manager\res\Assembly-CSharp-publicized.dll"><Private>false</Private></Reference>
+    <Reference Include="$(Managed)\Unity*.dll"><Private>false</Private></Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- RCM-Manager checked out as a sibling directory -->
+    <ProjectReference Include="..\RCM-Manager\RCM_GUI.csproj" />
+  </ItemGroup>
+</Project>
